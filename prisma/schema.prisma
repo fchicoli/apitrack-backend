@@ -6,6 +6,22 @@ datasource db {
   provider  = "postgresql"
 }
 
+enum MonitoredServiceStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model MonitoredService {
+  id        String                 @id @default(uuid())
+  name      String
+  url       String                 @unique
+  status    MonitoredServiceStatus @default(ACTIVE)
+  createdAt DateTime               @default(now()) @map("created_at")
+  updatedAt DateTime               @updatedAt @map("updated_at")
+
+  @@map("monitored_services")
+}
+
 model Application {
   id          String   @id @default(uuid())
   name        String
